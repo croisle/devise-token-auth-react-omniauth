@@ -1,0 +1,44 @@
+# frozen_string_literal: true
+
+class Api::V1::UsersOmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
+  def facebook
+    @user = User.from_omniauth(request.env['omniauth.auth'])
+
+    if @user.persisted?
+      sign_in_and_redirect @user, event: :authentication # this will throw if @user is not activated
+      if is_navigational_format?
+        set_flash_message(:notice, :success, kind: 'Facebook')
+        end
+    else
+      session['devise.facebook_data'] = request.env['omniauth.auth']
+      redirect_to new_user_registration_url
+    end
+  end
+
+  def stripe_connect
+    auth_data = request.env['omniauth.auth']
+    @user = current_user
+
+    if @user.persisted?
+      @user.provider = auth_data.provider
+      @user.uid = auth_data.uid
+      @user.access_token = auth_data.credentials.token
+      @user.publishable_key = auth_data.info.stripe_publishable_key
+      @user.save
+
+      sign_in_and_redirect @user, event: :authentication
+      if is_navigational_format?
+        flash[:notice] = 'Stripe Account Created And Connected'
+      end
+    else
+
+      session['devise.stripe_connect_data'] = request.env['omniauth.auth']
+      redirect_to root_path
+    end
+  end
+
+  def failure
+    flash[:notice] = 'failure'
+    redirect_to root_path
+  end
+end
