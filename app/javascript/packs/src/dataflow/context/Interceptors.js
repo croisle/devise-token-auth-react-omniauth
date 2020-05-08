@@ -12,8 +12,12 @@ function Interceptor() {
   axios.defaults.headers.common["Content-Type"] = "application/json";
   axios.defaults.headers.common["Accept"] = "application/json";
 
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
   axios.interceptors.request.use(
     async (config) => {
+      console.log(config);
+      
       const authHeaders = JSON.parse(
         window.localStorage.getItem("authHeaders")
       );
@@ -34,6 +38,8 @@ function Interceptor() {
 
   axios.interceptors.response.use(
     async (response) => {
+      console.log(response);
+      
       if (response.data.status === "unauthorized") {
         dispatch({ type: "AUTHORIZATION", user: { authorized: false } });
         // location.replace('/')
@@ -66,7 +72,7 @@ function Interceptor() {
       }
       if (error.response.status === 404) {
         console.log(error.response);
-        location.replace("/not_found");
+        location.replace("/");
       }
       console.log(error);
       // location.replace('/')

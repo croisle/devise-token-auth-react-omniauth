@@ -52,9 +52,8 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'rack-cors'
 
 gem 'devise_token_auth'
 gem 'omniauth-facebook'
-gem 'stripe'
-gem 'omniauth-stripe-connect'
-gem 'rack-cors'
+gem 'omniauth-google-oauth2'

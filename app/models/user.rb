@@ -4,10 +4,10 @@ class User < ActiveRecord::Base
     extend Devise::Models
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  # :confirmable, :lockable, :timeoutable and :omniauthable, :trackable,
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, 
-         :omniauthable, omniauth_providers: [:facebook, :stripe_connect]
+         :recoverable, :rememberable,  :validatable, 
+         :omniauthable, omniauth_providers: [:facebook, :google_oauth2]
   include DeviseTokenAuth::Concerns::User
 
   before_create :generate_authentication_token

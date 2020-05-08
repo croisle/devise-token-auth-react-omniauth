@@ -1,7 +1,7 @@
 // this is used to dynamically shwitch the default base url depending ot the environnement
 const prod = {
     url: {
-        API_URL: 'http://localhost:3000/api/v1' 
+        API_URL: 'http://localhost:3000' 
     }
 }
 

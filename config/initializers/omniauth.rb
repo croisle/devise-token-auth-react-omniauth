@@ -1,4 +1,7 @@
+# OmniAuth.config.path_prefix = "/api/v1/auth"
+
 Rails.application.config.middleware.use OmniAuth::Builder do
-    provider :facebook,      ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET']
-    provider :stripe_connect, ENV['STRIPE_CONNECT_ID'], ENV['STRIPE_SECRET_KEY']
+    
+    provider :facebook,      ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET'], scope: 'email', info_fields: 'email, name'
+    provider :google_oauth2, ENV['GOOGLE_KEY'],   ENV['GOOGLE_SECRET'], skip_jwt: true
 end
